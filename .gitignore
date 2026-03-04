@@ -1,0 +1,13 @@
+# Local secrets
+.env
+
+# Python cache/artifacts
+__pycache__/
+*.py[cod]
+
+# Logs/temp
+*.log
+*.tmp
+
+# Local generated test images
+test-output-*.png
