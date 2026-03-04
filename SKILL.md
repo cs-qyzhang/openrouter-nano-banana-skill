@@ -1,7 +1,7 @@
 ---
-name: nano-banana-pro
+name: openrouter-nano-banana
 description: Generate or edit images via OpenRouter Nano Banana 2.
-homepage: https://openrouter.ai/
+homepage: https://github.com/cs-qyzhang/openrouter-nano-banana-skill
 metadata:
   {
     "openclaw":
