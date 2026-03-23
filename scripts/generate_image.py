@@ -310,8 +310,8 @@ def main():
     )
     parser.add_argument(
         "--output-dir", "-o",
-        default="~/generated-image",
-        help="Output directory (default: ~/generated-image)"
+        default="~/.openclaw/workspace/generated-images",
+        help="Output directory (default: ~/.openclaw/workspace/generated-images)"
     )
     parser.add_argument(
         "--filename", "-f",
