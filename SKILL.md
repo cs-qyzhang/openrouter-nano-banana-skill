@@ -7,7 +7,7 @@ metadata:
     "openclaw":
       {
         "emoji": "🍌",
-        "requires": { "bins": ["python"], "env": ["OPENROUTER_API_KEY"] },
+        "requires": { "bins": ["python3"], "env": ["OPENROUTER_API_KEY"] },
         "primaryEnv": "OPENROUTER_API_KEY"
       }
   }
@@ -28,24 +28,24 @@ Agent startup checklist (run this before generation/editing every time)
 Generate
 
 ```bash
-python {baseDir}/scripts/generate_image.py --prompt "your image description" --filename "output.png" --resolution 1K
+python3 {baseDir}/scripts/generate_image.py --prompt "your image description" --filename "output.png" --resolution 1K
 ```
 
 > **Default output directory**: `~/generated-image/`. Use `--output-dir` to change:
 > ```bash
-> python {baseDir}/scripts/generate_image.py --prompt "description" --filename "output.png" --output-dir ./my-images
+> python3 {baseDir}/scripts/generate_image.py --prompt "description" --filename "output.png" --output-dir ./my-images
 > ```
 
 Edit (single image)
 
 ```bash
-python {baseDir}/scripts/generate_image.py --prompt "edit instructions" --filename "output.png" -i "/path/in.png" --resolution 2K
+python3 {baseDir}/scripts/generate_image.py --prompt "edit instructions" --filename "output.png" -i "/path/in.png" --resolution 2K
 ```
 
 Multi-image composition (up to 14 images)
 
 ```bash
-python {baseDir}/scripts/generate_image.py --prompt "combine these into one scene" --filename "output.png" -i img1.png -i img2.png -i img3.png
+python3 {baseDir}/scripts/generate_image.py --prompt "combine these into one scene" --filename "output.png" -i img1.png -i img2.png -i img3.png
 ```
 
 API key
