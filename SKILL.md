@@ -31,6 +31,11 @@ Generate
 python {baseDir}/scripts/generate_image.py --prompt "your image description" --filename "output.png" --resolution 1K
 ```
 
+> **Default output directory**: `~/generated-image/`. Use `--output-dir` to change:
+> ```bash
+> python {baseDir}/scripts/generate_image.py --prompt "description" --filename "output.png" --output-dir ./my-images
+> ```
+
 Edit (single image)
 
 ```bash
@@ -53,7 +58,9 @@ Notes
 
 - Model default: `google/gemini-3.1-flash-image-preview` (Nano Banana 2).
 - If no key is found and `{baseDir}/.env.example` exists, the script auto-creates `{baseDir}/.env` and asks the user to fill it.
-- Resolutions: `0.5K`, `1K` (default), `2K`, `4K`.
+- Resolutions: `1K` (default), `2K`, `4K`. Use `--resolution` / `-r`.
+- Aspect ratios: `1:1` (default), `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`, and extended ratios `1:4`, `4:1`, `1:8`, `8:1` (gemini only). Use `--aspect-ratio` / `-a`.
+- Default output directory: `~/generated-image/` (auto-created if not exists). Use `--output-dir` / `-o` to customize.
 - Use timestamps in filenames: `yyyy-mm-dd-hh-mm-ss-name.png`.
 - The script prints a `MEDIA:` line for OpenClaw to auto-attach on supported chat providers.
 - Do not read the image back; report the saved path only.

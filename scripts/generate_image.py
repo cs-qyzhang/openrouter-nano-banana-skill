@@ -7,7 +7,7 @@
 Generate or edit images using OpenRouter + Nano Banana 2.
 
 Usage:
-    python generate_image.py --prompt "your image description" --filename "output.png" [--resolution 0.5K|1K|2K|4K] [--api-key KEY]
+    python generate_image.py --prompt "your image description" --filename "output.png" [--resolution 1K|2K|4K] [--api-key KEY]
 
 Multi-image editing (up to 14 images):
     python generate_image.py --prompt "combine these images" --filename "output.png" -i img1.png -i img2.png -i img3.png
@@ -309,6 +309,11 @@ def main():
         help="Image description/prompt"
     )
     parser.add_argument(
+        "--output-dir", "-o",
+        default="~/generated-image",
+        help="Output directory (default: ~/generated-image)"
+    )
+    parser.add_argument(
         "--filename", "-f",
         required=True,
         help="Output filename (e.g., sunset-mountains.png)"
@@ -322,9 +327,15 @@ def main():
     )
     parser.add_argument(
         "--resolution", "-r",
-        choices=["0.5K", "1K", "2K", "4K"],
+        choices=["1K", "2K", "4K"],
         default="1K",
-        help="Output resolution: 0.5K, 1K (default), 2K, or 4K"
+        help="Output resolution: 1K (default), 2K, or 4K"
+    )
+    parser.add_argument(
+        "--aspect-ratio", "-a",
+        choices=["1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9", "1:4", "4:1", "1:8", "8:1"],
+        default=None,
+        help="Aspect ratio (1:1 default if not specified). Extended ratios (1:4, 4:1, 1:8, 8:1) only supported by google/gemini-3.1-flash-image-preview"
     )
     parser.add_argument(
         "--model", "-m",
@@ -369,8 +380,9 @@ def main():
         sys.exit(1)
 
     # Set up output path
-    output_path = Path(args.filename)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_dir = Path(args.output_dir).expanduser()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / args.filename
 
     # Load input images if provided (up to 14 for Nano Banana 2)
     input_data_urls: list[str] = []
@@ -431,9 +443,17 @@ def main():
             }
         ],
         "modalities": ["image", "text"],
-        "image_config": {"image_size": output_resolution},
         "stream": False,
     }
+
+    # Build image_config if any image options are specified
+    image_config = {}
+    if output_resolution in ("1K", "2K", "4K"):
+        image_config["image_size"] = output_resolution
+    if args.aspect_ratio:
+        image_config["aspect_ratio"] = args.aspect_ratio
+    if image_config:
+        payload["image_config"] = image_config
 
     try:
         response = make_openrouter_request(api_key=api_key, payload=payload)
